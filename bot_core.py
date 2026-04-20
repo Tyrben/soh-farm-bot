@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 
-class ScarsBot:
+class SoHBot:
     def __init__(self):
         self.window_id = None
         self.window_title = "Scars"

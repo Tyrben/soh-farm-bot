@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Point d'entrée du bot Scars of Honor
+Point d'entrée du bot
 """
 
-from bot_core import ScarsBot
+from bot_core import SoHBot
 
 def main():
     print("\n" + "="*50)
     print("🤖 Scars of Honor Bot - Détection carré jaune")
     print("="*50)
     
-    bot = ScarsBot()
+    bot = SoHBot()
     
     input("\nAppuyez sur ENTRÉE pour scanner et cliquer...")
     
