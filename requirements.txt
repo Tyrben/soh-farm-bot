@@ -5,6 +5,5 @@ streamlit>=1.32,<2
 numpy>=1.26,<2
 pillow>=10,<11
 
-# Windows seulement
+# Windows uniquement (optionnel, pour la détection de fenêtre)
 pygetwindow>=0.0.9,<1
-pydirectinput>=1.0,<2

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cœur du bot - Détection et clics (Linux & Windows)
+Cœur du programme - Détection et clics
 """
 
 import cv2
@@ -8,36 +8,21 @@ import numpy as np
 import pyautogui
 import time
 import logging
-import sys
+import subprocess
 import platform
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-# Détection du système d'exploitation
-IS_WINDOWS = platform.system() == "Windows"
-IS_LINUX = platform.system() == "Linux"
-
-if IS_WINDOWS:
-    import pydirectinput  # Windows uniquement
-    INPUT_LIB = pydirectinput
-    logger.info("🐍 Mode Windows - Utilisation de pydirectinput")
-else:
-    # Sur Linux, pyautogui fonctionne bien
-    INPUT_LIB = pyautogui
-    logger.info("🐧 Mode Linux - Utilisation de pyautogui")
 
 
 class ScarsBot:
     def __init__(self):
         self.window_id = None
         self.window_title = "Scars"
-        self.use_xdotool = IS_LINUX  # xdotool uniquement sur Linux
-    
-    def find_window_linux(self):
-        """Trouve la fenêtre du jeu sous Linux avec xdotool"""
-        import subprocess
+        self.os_name = platform.system()  # 'Linux', 'Windows', 'Darwin'
         
+    def _find_window_linux(self):
+        """Recherche fenêtre sous Linux avec xdotool"""
         try:
             result = subprocess.run(
                 ['xdotool', 'search', '--name', self.window_title],
@@ -57,8 +42,8 @@ class ScarsBot:
             logger.error(f"Erreur: {e}")
             return False
     
-    def find_window_windows(self):
-        """Trouve la fenêtre du jeu sous Windows avec pygetwindow"""
+    def _find_window_windows(self):
+        """Recherche fenêtre sous Windows avec pygetwindow"""
         import pygetwindow as gw
         
         try:
@@ -75,15 +60,16 @@ class ScarsBot:
     
     def find_window(self):
         """Trouve la fenêtre selon l'OS"""
-        if IS_LINUX:
-            return self.find_window_linux()
+        if self.os_name == "Linux":
+            return self._find_window_linux()
+        elif self.os_name == "Windows":
+            return self._find_window_windows()
         else:
-            return self.find_window_windows()
+            logger.error(f"Système non supporté: {self.os_name}")
+            return False
     
-    def get_window_region_linux(self):
+    def _get_region_linux(self):
         """Récupère la région sous Linux"""
-        import subprocess
-        
         try:
             result = subprocess.run(
                 ['xdotool', 'getwindowgeometry', self.window_id],
@@ -102,7 +88,7 @@ class ScarsBot:
             logger.error(f"Erreur région: {e}")
             return None
     
-    def get_window_region_windows(self):
+    def _get_region_windows(self):
         """Récupère la région sous Windows"""
         try:
             x, y = self.window.left, self.window.top
@@ -115,14 +101,14 @@ class ScarsBot:
     
     def get_window_region(self):
         """Récupère la région selon l'OS"""
-        if IS_LINUX:
-            return self.get_window_region_linux()
-        else:
-            return self.get_window_region_windows()
+        if self.os_name == "Linux":
+            return self._get_region_linux()
+        elif self.os_name == "Windows":
+            return self._get_region_windows()
+        return None
     
-    def activate_window_linux(self):
+    def _activate_linux(self):
         """Active la fenêtre sous Linux"""
-        import subprocess
         try:
             subprocess.run(['xdotool', 'windowactivate', self.window_id])
             time.sleep(0.3)
@@ -131,7 +117,7 @@ class ScarsBot:
             logger.error(f"Erreur activation: {e}")
             return False
     
-    def activate_window_windows(self):
+    def _activate_windows(self):
         """Active la fenêtre sous Windows"""
         try:
             self.window.activate()
@@ -143,10 +129,11 @@ class ScarsBot:
     
     def activate_window(self):
         """Active la fenêtre selon l'OS"""
-        if IS_LINUX:
-            return self.activate_window_linux()
-        else:
-            return self.activate_window_windows()
+        if self.os_name == "Linux":
+            return self._activate_linux()
+        elif self.os_name == "Windows":
+            return self._activate_windows()
+        return False
     
     def detect_yellow_square(self, image, target_size=64):
         """Détecte un carré jaune dans l'image (identique pour tous les OS)"""
@@ -175,9 +162,9 @@ class ScarsBot:
         return None
     
     def click(self, x, y):
-        """Clic multiplateforme"""
-        INPUT_LIB.moveTo(x, y)
-        INPUT_LIB.click()
+        """Clic avec pyautogui (fonctionne sur Linux et Windows)"""
+        pyautogui.moveTo(x, y)
+        pyautogui.click()
         logger.info(f"🖱️ Clic à ({x}, {y})")
     
     def click_once(self):
@@ -207,4 +194,3 @@ class ScarsBot:
         else:
             logger.warning("❌ Aucun carré jaune détecté")
             return False
-
