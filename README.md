@@ -19,6 +19,9 @@ pip install -r requirements.txt
 
 Lancer le point d'entrée standard
 ```
+# Linux
 python main.py
+# ou Windows
+venv\Scripts\python main.py
 ```
 
