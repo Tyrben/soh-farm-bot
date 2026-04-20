@@ -1,0 +1,10 @@
+# Commun à tous les OS
+opencv-python>=4.9,<5
+pyautogui>=0.9,<1
+streamlit>=1.32,<2
+numpy>=1.26,<2
+pillow>=10,<11
+
+# Windows seulement
+pygetwindow>=0.0.9,<1
+pydirectinput>=1.0,<2
