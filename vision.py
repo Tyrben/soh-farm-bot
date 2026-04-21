@@ -14,12 +14,12 @@ class VisionDetector:
         """
         self.target_color = target_color
         self.tolerance = tolerance
-        
+
     def capture_screen_region(self, region):
         """Capture une région spécifique de l'écran"""
         screenshot = pyautogui.screenshot(region=region)
         return cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
-    
+
     def detect_yellow_square(self, image, square_size=64):
         """
         Détecte un carré jaune de taille square_size x square_size
@@ -55,7 +55,7 @@ class VisionDetector:
         
         logger.debug("Aucun carré jaune trouvé")
         return None
-    
+
     def debug_save_detection(self, image, mask, filename="debug_detection.png"):
         """Sauvegarde l'image et le masque pour déboguer"""
         h, w = image.shape[:2]

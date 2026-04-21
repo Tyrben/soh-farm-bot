@@ -1,27 +1,34 @@
-## Lancer le projet
+# Scars of Honor farm bot
 
-Testé en python 3.12 (stable).
+Tested with python 3.12 (stable).
 
-Activer l'environnement virtuel
+Based on the wood chopping mini-game test: https://scarshead.com/playtest
+
+## Launch the project
+
+### Activate a python virtual environment
+
 ```
 python3.12 -m venv venv
-# Linux
+# on Linux
 source venv/bin/activate
-# ou Windows
+# or Windows
 venv\Scripts\activate
 ```
-(python is now locked in 3.12, now user only `pyhton`)
 
-Installer les dépendances
+(this venv is now locked in 3.12, prefer using `venv/bin/python` or `venv\Scripts\python`)
+
+### Install dependencies
+
 ```
 pip install -r requirements.txt
 ```
 
-Lancer le point d'entrée standard
+### Launch from the main
+
 ```
-# Linux
+# on Linux
 python main.py
-# ou Windows
+# or Windows
 venv\Scripts\python main.py
 ```
-

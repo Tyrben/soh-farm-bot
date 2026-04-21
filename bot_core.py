@@ -20,7 +20,7 @@ class SoHBot:
         self.window_id = None
         self.window_title = "Scars"
         self.os_name = platform.system()  # 'Linux', 'Windows', 'Darwin'
-        
+
     def _find_window_linux(self):
         """Recherche fenêtre sous Linux avec xdotool"""
         try:
@@ -41,7 +41,7 @@ class SoHBot:
         except Exception as e:
             logger.error(f"Erreur: {e}")
             return False
-    
+
     def _find_window_windows(self):
         """Recherche fenêtre sous Windows avec pygetwindow"""
         import pygetwindow as gw
@@ -67,7 +67,7 @@ class SoHBot:
         else:
             logger.error(f"Système non supporté: {self.os_name}")
             return False
-    
+
     def _get_region_linux(self):
         """Récupère la région sous Linux"""
         try:
@@ -87,7 +87,7 @@ class SoHBot:
         except Exception as e:
             logger.error(f"Erreur région: {e}")
             return None
-    
+
     def _get_region_windows(self):
         """Récupère la région sous Windows"""
         try:
@@ -98,7 +98,7 @@ class SoHBot:
         except Exception as e:
             logger.error(f"Erreur région: {e}")
             return None
-    
+
     def get_window_region(self):
         """Récupère la région selon l'OS"""
         if self.os_name == "Linux":
@@ -106,7 +106,7 @@ class SoHBot:
         elif self.os_name == "Windows":
             return self._get_region_windows()
         return None
-    
+
     def _activate_linux(self):
         """Active la fenêtre sous Linux"""
         try:
@@ -116,7 +116,7 @@ class SoHBot:
         except Exception as e:
             logger.error(f"Erreur activation: {e}")
             return False
-    
+
     def _activate_windows(self):
         """Active la fenêtre sous Windows"""
         try:
@@ -126,7 +126,7 @@ class SoHBot:
         except Exception as e:
             logger.error(f"Erreur activation: {e}")
             return False
-    
+
     def activate_window(self):
         """Active la fenêtre selon l'OS"""
         if self.os_name == "Linux":
@@ -134,7 +134,7 @@ class SoHBot:
         elif self.os_name == "Windows":
             return self._activate_windows()
         return False
-    
+
     def detect_yellow_square(self, image, target_size=64):
         """Détecte un carré jaune dans l'image (identique pour tous les OS)"""
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -160,13 +160,13 @@ class SoHBot:
                 logger.info(f"🎯 Carré trouvé: {w}x{h}px au centre {center}")
                 return center
         return None
-    
+
     def click(self, x, y):
         """Clic avec pyautogui (fonctionne sur Linux et Windows)"""
         pyautogui.moveTo(x, y)
         pyautogui.click()
         logger.info(f"🖱️ Clic à ({x}, {y})")
-    
+
     def click_once(self):
         """Exécute une détection et un clic unique"""
         if not self.find_window():

@@ -7,7 +7,7 @@ from bot_core import SoHBot
 
 def main():
     print("\n" + "="*50)
-    print("🤖 Scars of Honor Bot - Détection carré jaune")
+    print("🤖 Scars of Honor Bot")
     print("="*50)
     
     bot = SoHBot()
